@@ -1,3 +1,15 @@
-from django.shortcuts import render
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import generics
+from .models import Card, User
+from .serializer import CardSerializer, UserSerializer 
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView 
 
-# Create your views here.
+class UserListView(generics.ListCreateAPIView):
+  queryset = User.objects.all()
+  serializer_class = UserSerializer
+
+class CardListView(generics.ListCreateAPIView):
+  queryset = Card.objects.all()
+  serializer_class = CardSerializer
+

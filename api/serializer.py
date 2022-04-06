@@ -8,14 +8,20 @@ class CardSerializer(serializers.ModelSerializer):
             'pk',
             'user',
             'occasion',
-            'frontdescription',
-            'backdescription',
+            'frontDescription',
+            'backDescription',
             'created_at',
             'image',
+            'profile_pic',
+            'liked',
             'has_back',
+            'COLOR_CHOICES',
+            'card_color',
+            'BORDER_DESIGN_CHOICES',
+            'border'
         )
 
-class Userserializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (

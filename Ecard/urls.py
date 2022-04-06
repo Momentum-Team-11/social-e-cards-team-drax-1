@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,  include
+from api import views as api_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('djoser.urls')),
     path('api/', include('djoser.urls.authtoken')),
+
+# api URLs
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/cards/', api_views.CardListView.as_view())
 ]
