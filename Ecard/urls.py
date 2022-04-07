@@ -19,8 +19,8 @@ from api import views as api_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('djoser.urls')),
-    path('api/', include('djoser.urls.authtoken')),
+    path('api/auth', include('djoser.urls')),
+    path('api/auth', include('djoser.urls.authtoken')),
     # path('follow/<int:pk>/', api_views.FollowView.as_view({'post': 'follow'})),
     # path('unfollow/<int:pk>/', api_views.FollowView.as_view({'post': 'unfollow'})),
 
