@@ -10,7 +10,7 @@ class UserListView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 class CardListView(generics.ListCreateAPIView):
-    queryset = Card.objects.all()
+    queryset = Card.objects.all().order_by('-created_at')
     serializer_class = CardSerializer
     permissions = (permissions.IsAuthenticatedOrReadOnly)
 
