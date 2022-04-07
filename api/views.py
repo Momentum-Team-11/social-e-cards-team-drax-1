@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, permissions, viewsets
-from .models import Card, User, Profile
+from .models import Card, User 
 from .serializer import CardSerializer, UserSerializer 
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView 
 

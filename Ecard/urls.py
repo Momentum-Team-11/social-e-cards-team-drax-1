@@ -26,6 +26,7 @@ urlpatterns = [
 
 # api URLs
     path('api-auth/', include('rest_framework.urls')),
+    path('api/user/', api_views.UserListView.as_view()),
     path('api/cards/', api_views.CardListView.as_view()),
     path('api/cards/<int:pk>/', api_views.CardDetailsView.as_view()),
     path('api/user/<int:pk>/', api_views.UserDetailsView.as_view())
