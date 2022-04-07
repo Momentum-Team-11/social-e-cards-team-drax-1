@@ -15,9 +15,7 @@ class CardSerializer(serializers.ModelSerializer):
             'profile_pic',
             'liked',
             'has_back',
-            'COLOR_CHOICES',
             'card_color',
-            'BORDER_DESIGN_CHOICES',
             'border'
         )
 
