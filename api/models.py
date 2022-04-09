@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractUser):
-    following = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='followers', blank=True)
+    following = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='Users', blank=True)
 
     def __repr__(self):
         return f"<User username={self.username} pk={self.pk}>"
