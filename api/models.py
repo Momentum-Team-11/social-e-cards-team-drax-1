@@ -6,11 +6,26 @@ from django.contrib.auth.base_user import BaseUserManager
 
 # Create your models here.
 
+class UserManager(BaseUserManager):
+    use_in_migrations = True
+
+    def _create_user(self, username, email, password, **extra_fields):
+
+        if not username:
+            raise ValueError('The given username must be set')
+        email = self.normalize_email(email)
+        username = self.model.normalize_username(username)
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        REQUIRED_FIELDS = ['username', 'password']
+        return user
+
 class User(AbstractUser):
     following = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='followers', blank=True)
 
     def __repr__(self):
-        return f"<User username={self.username}>"
+        return f"<User username={self.username} pk={self.pk}>"
 
     def __str__(self):
         return self.username
@@ -51,17 +66,3 @@ class Card(models.Model):
         return self.occasion
 
 
-class UserManager(BaseUserManager):
-    use_in_migrations = True
-
-    def _create_user(self, username, email, password, **extra_fields):
-
-        if not username:
-            raise ValueError('The given username must be set')
-        email = self.normalize_email(email)
-        username = self.model.normalize_username(username)
-        user = self.model(username=username, email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        REQUIRED_FIELDS = ['username', 'password']
-        return user

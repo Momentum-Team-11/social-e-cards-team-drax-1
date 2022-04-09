@@ -1,10 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import generics, permissions, viewsets
+from rest_framework import generics, permissions, viewsets, filters
 from .models import Card, User 
 from .serializer import CardSerializer, UserSerializer 
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView 
 from .permissions import IsOwnerOrReadOnly
+from django.db.models import Q
 
 class UserListView(generics.ListCreateAPIView):
     queryset = User.objects.all()
@@ -14,9 +15,36 @@ class UserListView(generics.ListCreateAPIView):
 class CardListView(generics.ListCreateAPIView):
     queryset = Card.objects.all().order_by('-created_at')
     serializer_class = CardSerializer
+    permissions = (permissions.IsAuthenticatedOrReadOnly)
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class UserFollowedCardListView(generics.ListCreateAPIView):
+    serializer_class = CardSerializer
     permissions = (permissions.IsAuthenticatedOrReadOnly)
+    filter_backends = (filters.SearchFilter)
+    search_fields = ['username']
+    
+    def get_queryset(self):
+        filters = Q(user_id=self.request.user)
+        return Card.objects.exclude(user__following=None).filter(filters)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class UserCreatedCardListView(generics.ListCreateAPIView):
+    serializer_class = CardSerializer
+    permissions = (permissions.IsAuthenticatedOrReadOnly)
+    
+    def get_queryset(self):
+        filters = Q(user_id=self.request.user)
+        return Card.objects.filter(filters)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 class CardDetailsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Card.objects.all()
