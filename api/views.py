@@ -4,19 +4,25 @@ from rest_framework import generics, permissions, viewsets
 from .models import Card, User 
 from .serializer import CardSerializer, UserSerializer 
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView 
+from .permissions import IsOwnerOrReadOnly
 
 class UserListView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
 class CardListView(generics.ListCreateAPIView):
     queryset = Card.objects.all().order_by('-created_at')
     serializer_class = CardSerializer
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
     permissions = (permissions.IsAuthenticatedOrReadOnly)
 
 class CardDetailsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+
 
 class UserDetailsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()

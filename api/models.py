@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.forms import URLField
 from django.conf import settings
-
+from django.contrib.auth.base_user import BaseUserManager
 
 # Create your models here.
 
@@ -29,6 +29,8 @@ class Card(models.Model):
     profile_pic = models.URLField(max_length=500, blank=True)
     liked = models.CharField(max_length=10, default=False)
     has_back = models.CharField(max_length=10, default=False)
+    owner= models.ForeignKey(User, related_name='owner', on_delete=models.CASCADE,)
+
     
     # CARD COLORS AND BORDER DESIGN
     RED = 'Red'
@@ -48,3 +50,19 @@ class Card(models.Model):
 
     def __str__(self):
         return self.occasion
+
+
+class UserManager(BaseUserManager):
+    use_in_migrations = True
+
+    def _create_user(self, username, email, password, **extra_fields):
+
+        if not username:
+            raise ValueError('The given username must be set')
+        email = self.normalize_email(email)
+        username = self.model.normalize_username(username)
+        user = self.model(username=username, email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        REQUIRED_FIELDS = ['username', 'password']
+        return user
