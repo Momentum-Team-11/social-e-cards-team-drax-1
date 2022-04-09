@@ -23,13 +23,12 @@ class Card(models.Model):
     occasion= models.CharField(max_length=50, blank=True)
     frontDescription= models.CharField(max_length=250, blank=True)
     backDescription= models.CharField(max_length=250)
-    user= models.ForeignKey(User, related_name="cards", on_delete=models.CASCADE, null=True, blank=True)
+    user= models.ForeignKey(User, related_name="card", on_delete=models.CASCADE, null=True, blank=True)
     created_at= models.DateField(auto_now_add=True)
     image = models.URLField(max_length=500, blank=True)
     profile_pic = models.URLField(max_length=500, blank=True)
-    liked = models.CharField(max_length=10, default=False)
-    has_back = models.CharField(max_length=10, default=False)
-    owner= models.ForeignKey(User, related_name='owner', on_delete=models.CASCADE,)
+    liked = models.CharField(max_length=10, default="false")
+    has_back = models.CharField(max_length=10, default="false")
 
     
     # CARD COLORS AND BORDER DESIGN

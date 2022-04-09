@@ -2,14 +2,12 @@ from .models import Card, User
 from rest_framework import serializers
 
 class CardSerializer(serializers.ModelSerializer):
-    user = serializers.SlugRelatedField(
-        slug_field="username", queryset=User.objects.all())
+    username = serializers.SlugRelatedField(slug_field='username', read_only='True', source='user')
     class Meta:
         model = Card
         fields = (
             'pk',
-            'user',
-            'owner',
+            'username',
             'occasion',
             'frontDescription',
             'backDescription',
@@ -23,6 +21,7 @@ class CardSerializer(serializers.ModelSerializer):
         )
 
 class UserSerializer(serializers.ModelSerializer):
+    username = serializers.SlugRelatedField(slug_field='username', read_only='True', source='user')
     class Meta:
         model = User
         fields = (
