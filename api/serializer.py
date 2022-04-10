@@ -14,7 +14,7 @@ class CardSerializer(serializers.ModelSerializer):
             'created_at',
             'image',
             'profile_pic',
-            'liked',
+            'like',
             'has_back',
             'card_color',
             'border'
@@ -22,6 +22,7 @@ class CardSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     username = serializers.SlugRelatedField(slug_field='username', read_only='True', source='user')
+    card = CardSerializer(many=True, read_only=True)
     class Meta:
         model = User
         fields = (
@@ -29,5 +30,12 @@ class UserSerializer(serializers.ModelSerializer):
             'username',
             'first_name',
             'last_name',
-            'following'
+            'following',
+            'card'
         )
+        def create(self, validated_data):
+            cards = validated_data.pop('cards')
+            user_instance = User.objects.create(**validated_data)
+            for card in cards:
+                User.objects.create(user=user_instance, **card)
+            return user_instance

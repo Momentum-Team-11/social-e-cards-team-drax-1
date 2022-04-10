@@ -23,12 +23,11 @@ class CardListView(generics.ListCreateAPIView):
 class UserFollowedCardListView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
     permissions = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
-    filter_backends = (filters.SearchFilter)
-    search_fields = ['username']
+
     
     def get_queryset(self):
-        filters = Q(user_id=self.request.user)
-        return User.following.filter(filters)
+        currentUser = User.objects.get(username=self.request.user)
+        return currentUser.following.all()
 
     # def get_queryset(self):
     #     user_id = self.request.GET.get('current_user_id', None)

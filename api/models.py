@@ -22,7 +22,7 @@ class UserManager(BaseUserManager):
         return user
 
 class User(AbstractUser):
-    following = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='Users', blank=True)
+    following = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='User', blank=True)
 
     def __repr__(self):
         return f"<User username={self.username} pk={self.pk}>"
@@ -42,7 +42,7 @@ class Card(models.Model):
     created_at= models.DateField(auto_now_add=True)
     image = models.URLField(max_length=500, blank=True)
     profile_pic = models.URLField(max_length=500, blank=True)
-    liked = models.CharField(max_length=10, default="false")
+    like = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='user_like')
     has_back = models.CharField(max_length=10, default="false")
 
     

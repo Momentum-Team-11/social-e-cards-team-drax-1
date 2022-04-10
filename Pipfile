@@ -14,6 +14,7 @@ psycopg2-binary = "*"
 djoser = "*"
 django-cors-headers = "*"
 gunicorn = "*"
+django-extensions = "*"
 
 [dev-packages]
 
