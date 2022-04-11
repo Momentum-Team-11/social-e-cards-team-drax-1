@@ -49,13 +49,13 @@ class Card(models.Model):
     has_back = models.CharField(max_length=10, default="false")
     
     #Card Alignment
-    START = 'Start'
-    END = 'End'
+    THE_START = 'Start'
+    THE_END = 'End'
     FLEX_START ='Flex-Start'
     FLEX_END = 'Flex-End'
-    CENTER = 'Center'
-    LEFT = 'Left'
-    RIGHT = 'Right'
+    FLEX_CENTER = 'Center'
+    FLEX_LEFT = 'Left'
+    FLEX_RIGHT = 'Right'
     NORMAL = 'Normal'
     SPACE_BETWEEN = 'Space-Between'
     SPACE_AROUND = 'Space-Around'
@@ -64,8 +64,8 @@ class Card(models.Model):
     SAFE = 'Safe'
     UNSAFE = 'Unsafe'
     CARD_ALIGNMENT_CHOICES = [
-        (START, 'Start'), (END, 'End'), (FLEX_START, 'Flex-Start'), (FLEX_END, 'Flex-End'),
-        (CENTER, 'Center'), (LEFT, 'Left'), (RIGHT, 'Right'), (NORMAL, 'Normal'), (SPACE_BETWEEN, 'Space-Between'),
+        (THE_START, 'Start'), (THE_END, 'End'), (FLEX_START, 'Flex-Start'), (FLEX_END, 'Flex-End'),
+        (FLEX_CENTER, 'Center'), (FLEX_LEFT, 'Left'), (FLEX_RIGHT, 'Right'), (NORMAL, 'Normal'), (SPACE_BETWEEN, 'Space-Between'),
         (SPACE_AROUND, 'Space-Around'), (SPACE_EVENLY, 'Space-Evenly'), (STRETCH, 'Stretch'), (SAFE, 'Safe'), (UNSAFE, 'Unsafe')]
     card_alignment = models.CharField(max_length=200, blank=True, choices=CARD_ALIGNMENT_CHOICES)
 
