@@ -67,7 +67,8 @@ class Card(models.Model):
         (START, 'Start'), (END, 'End'), (FLEX_START, 'Flex-Start'), (FLEX_END, 'Flex-End'),
         (CENTER, 'Center'), (LEFT, 'Left'), (RIGHT, 'Right'), (NORMAL, 'Normal'), (SPACE_BETWEEN, 'Space-Between'),
         (SPACE_AROUND, 'Space-Around'), (SPACE_EVENLY, 'Space-Evenly'), (STRETCH, 'Stretch'), (SAFE, 'Safe'), (UNSAFE, 'Unsafe')]
-    Card_Alignment = models.CharField(max_length=200, blank=True, choices=CARD_ALIGNMENT_CHOICES)
+    card_alignment = models.CharField(max_length=200, blank=True, choices=CARD_ALIGNMENT_CHOICES)
+
     #Card FONTS
     ROBOTO = 'Roboto'
     OPEN_SANS = 'Open Sans'
@@ -76,6 +77,7 @@ class Card(models.Model):
     CONCERT_ONE = 'Concert One'
     CARD_FONT_CHOICES = [(ROBOTO,'Roboto'),(OPEN_SANS, 'Open Sans'), (LATO, 'Lato'), (OSWALD , 'Oswald'), (CONCERT_ONE, 'Concert One')]
     card_font = models.CharField(max_length=200, blank=True, choices=CARD_FONT_CHOICES)
+
     # CARD COLORS AND BORDER DESIGN
     RED = 'Red'
     BLUE = 'Blue'
