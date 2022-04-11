@@ -1,6 +1,3 @@
-from tkinter import CENTER, END, LEFT, RIGHT
-from tkinter.font import NORMAL
-from xml.dom.pulldom import START_DOCUMENT
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.forms import URLField
