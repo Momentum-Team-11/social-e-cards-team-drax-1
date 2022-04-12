@@ -56,7 +56,7 @@ class UserCreatedCardListView(generics.ListCreateAPIView):
 class CardDetailsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
 
 class UserDetailsView(generics.RetrieveUpdateDestroyAPIView):
