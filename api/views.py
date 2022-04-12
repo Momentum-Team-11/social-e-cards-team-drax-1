@@ -10,6 +10,7 @@ from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, L
 from .permissions import IsOwnerOrReadOnly
 from django.db.models import Q
 
+
 class UserListView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -18,7 +19,7 @@ class UserListView(generics.ListCreateAPIView):
 class CardListView(generics.ListCreateAPIView):
     queryset = Card.objects.all().order_by('-created_at')
     serializer_class = CardSerializer
-    permissions = (permissions.IsAuthenticatedOrReadOnly)
+    permissions = (permissions.IsAuthenticatedOrReadOnly,)
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -42,7 +43,7 @@ class UserFollowedCardListView(generics.ListCreateAPIView):
 
 class UserCreatedCardListView(generics.ListCreateAPIView):
     serializer_class = CardSerializer
-    permissions = (permissions.IsAuthenticatedOrReadOnly)
+    permissions = (permissions.IsAuthenticatedOrReadOnly,)
     
     def get_queryset(self):
         filters = Q(user_id=self.request.user)
@@ -55,7 +56,7 @@ class UserCreatedCardListView(generics.ListCreateAPIView):
 class CardDetailsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 class UserDetailsView(generics.RetrieveUpdateDestroyAPIView):
