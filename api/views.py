@@ -1,3 +1,4 @@
+from pyexpat import model
 from xml.dom import UserDataHandler
 from django.http import Http404
 from rest_framework.views import APIView
@@ -108,14 +109,29 @@ class UnLikeView(APIView):
 
             return Response({"Requested" : "You have Unliked this card!"},status=status.HTTP_200_OK)
 
-class CardSearchView(ListAPIView):
+
+class CardSearchV(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['username', 'email']
+
+
+
+
+class CardSearchView(generics.ListAPIView):
     serializer_class = CardSerializer
-    
+
     def get_queryset(self):
-        queryset=Card.objects.filter(card_id=self.kwargs["card_pk"])
-        search_term=self.request.query_params.get("occasion")
-        if search_term is not None:
-            return Card.objects.filter("occasion_icontains")
+        queryset = Card.objects.all()
+        occasion = self.request.query_params.get('occasion')
+        if occasion is not None:
+            queryset = queryset.filter(occasion=occasion)
+        return queryset
+
+
+
+
 
 
 

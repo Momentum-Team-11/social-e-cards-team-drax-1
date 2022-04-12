@@ -15,6 +15,7 @@ djoser = "*"
 django-cors-headers = "*"
 gunicorn = "*"
 django-extensions = "*"
+django-filter = "*"
 
 [dev-packages]
 
