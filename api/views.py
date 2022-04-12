@@ -4,8 +4,8 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, permissions, viewsets, filters, status
-from .models import Card, User 
-from .serializer import CardSerializer, UserSerializer 
+from .models import Card, User, Draft
+from .serializer import CardSerializer, UserSerializer, DraftCardSerializer 
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView 
 from .permissions import IsOwnerOrReadOnly
 from django.db.models import Q
@@ -14,19 +14,19 @@ from django.db.models import Q
 class UserListView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    permission_classes = (IsOwnerOrReadOnly,)
 
-class CardListView(generics.ListCreateAPIView):
+class PublicCardListView(generics.ListCreateAPIView):
     queryset = Card.objects.all().order_by('-created_at')
     serializer_class = CardSerializer
-    permissions = (permissions.IsAuthenticatedOrReadOnly,)
+    permissions = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
 
 class UserFollowedCardListView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
-    permissions = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    permissions = (IsOwnerOrReadOnly,)
 
     
     def get_queryset(self):
@@ -110,16 +110,7 @@ class UnLikeView(APIView):
 
             return Response({"Requested" : "You have Unliked this card!"},status=status.HTTP_200_OK)
 
-
-class CardSearchV(generics.ListAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['username', 'email']
-
-
-
-
+# Searching
 class CardSearchView(generics.ListAPIView):
     serializer_class = CardSerializer
 
@@ -131,24 +122,19 @@ class CardSearchView(generics.ListAPIView):
         return queryset
 
 
+# Draft
+class UserCreatedDraftCardListView(generics.ListCreateAPIView):
+    serializer_class = DraftCardSerializer
+    permissions = (permissions.IsAuthenticatedOrReadOnly,)
+    
+    def get_queryset(self):
+        filters = Q(user_id=self.request.user)
+        return Draft.objects.filter(filters)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
-
-
-
-
-# class FollowView(viewsets.ViewSet):
-#     queryset = Profile.objects
-
-#     def follow(self, request, pk):
-#         # your follow code
-#         own_profile = request.user.profilfe_set.first()  
-#         following_profile = Profile.objects.get(id=pk)
-#         own_profile.following.add(following_profile)
-#         return Response({'message': 'now you are following'}, status=status.HTTP_200_OK)
-
-#     def unfollow(self, request, pk):
-#         # your unfollow code
-#         own_profile = request.user.profile_set.first()  
-#         following_profile = Profile.objects.get(id=pk)
-#         own_profile.following.remove(following_profile)
-#         return Response({'message': 'you are no longer following him'}, status=status.HTTP_200_OK)
+class DraftCardDetailsView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Draft.objects.all()
+    serializer_class = DraftCardSerializer
+    permission_classes = (IsOwnerOrReadOnly,)

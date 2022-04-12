@@ -27,7 +27,7 @@ urlpatterns = [
 # api URLs
     path('api-auth/', include('rest_framework.urls')),
     path('api/user/', api_views.UserListView.as_view()),
-    path('api/cards/', api_views.CardListView.as_view()),
+    path('api/cards/', api_views.PublicCardListView.as_view()),
     path('api/cards/<int:pk>/', api_views.CardDetailsView.as_view()),
     path('api/user/<int:pk>/', api_views.UserDetailsView.as_view()),
     path('api/user-created-cards/', api_views.UserCreatedCardListView.as_view()),
@@ -37,4 +37,6 @@ urlpatterns = [
     path('api/like/<int:pk>/', api_views.LikeView.as_view()),
     path('api/unlike/<int:pk>/', api_views.UnLikeView.as_view()),
     path('api/search/', api_views.CardSearchView.as_view()),
+    path('api/draft/', api_views.UserCreatedDraftCardListView.as_view()),
+    path('api/draft/<int:pk>/', api_views.DraftCardDetailsView.as_view()),
 ]
