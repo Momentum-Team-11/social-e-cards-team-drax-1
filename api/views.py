@@ -14,7 +14,7 @@ from django.db.models import Q
 class UserListView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsOwnerOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
 class PublicCardListView(generics.ListCreateAPIView):
     queryset = Card.objects.all().order_by('-created_at')
@@ -43,7 +43,7 @@ class UserFollowedCardListView(generics.ListCreateAPIView):
 
 class UserCreatedCardListView(generics.ListCreateAPIView):
     serializer_class = CardSerializer
-    permissions = (permissions.IsAuthenticatedOrReadOnly,)
+    permissions = (IsOwnerOrReadOnly,)
     
     def get_queryset(self):
         filters = Q(user_id=self.request.user)
@@ -56,7 +56,7 @@ class UserCreatedCardListView(generics.ListCreateAPIView):
 class CardDetailsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Card.objects.all()
     serializer_class = CardSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsOwnerOrReadOnly,)
 
 
 class UserDetailsView(generics.RetrieveUpdateDestroyAPIView):
@@ -113,6 +113,7 @@ class UnLikeView(APIView):
 # Searching
 class CardSearchView(generics.ListAPIView):
     serializer_class = CardSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         queryset = Card.objects.all()
@@ -125,7 +126,7 @@ class CardSearchView(generics.ListAPIView):
 # Draft
 class UserCreatedDraftCardListView(generics.ListCreateAPIView):
     serializer_class = DraftCardSerializer
-    permissions = (permissions.IsAuthenticatedOrReadOnly,)
+    permissions = (IsOwnerOrReadOnly,)
     
     def get_queryset(self):
         filters = Q(user_id=self.request.user)
@@ -135,6 +136,9 @@ class UserCreatedDraftCardListView(generics.ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 class DraftCardDetailsView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Draft.objects.all()
     serializer_class = DraftCardSerializer
     permission_classes = (IsOwnerOrReadOnly,)
+
+    def get_queryset(self):
+        filters = Q(user_id=self.request.user)
+        return Draft.objects.filter(filters)
