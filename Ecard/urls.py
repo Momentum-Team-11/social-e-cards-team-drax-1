@@ -32,4 +32,9 @@ urlpatterns = [
     path('api/user/<int:pk>/', api_views.UserDetailsView.as_view()),
     path('api/user-created-cards/', api_views.UserCreatedCardListView.as_view()),
     path('api/following/', api_views.UserFollowedCardListView.as_view()),
+    path('api/following/<int:pk>/', api_views.FollowView.as_view()),
+    path('api/unfollow/<int:pk>/', api_views.UnFollowView.as_view()),
+    path('api/like/<int:pk>/', api_views.LikeView.as_view()),
+    path('api/unlike/<int:pk>/', api_views.UnLikeView.as_view()),
+
 ]

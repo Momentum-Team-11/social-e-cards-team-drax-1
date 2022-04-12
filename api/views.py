@@ -1,6 +1,8 @@
+from xml.dom import UserDataHandler
+from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import generics, permissions, viewsets, filters
+from rest_framework import generics, permissions, viewsets, filters, status
 from .models import Card, User 
 from .serializer import CardSerializer, UserSerializer 
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView 
@@ -59,13 +61,62 @@ class UserDetailsView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+# def follow(request, pk):
+#     own_profile = request.user
+#     following_profile = User.objects.get(id=pk)
+#     own_profile.following.add(following_profile)  
+#     return Response({'message': 'now you are following'})
+
+class FollowView(APIView):
+        permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+                
+        def post(request, self, pk,format=None):    
+            current_profile = self.user
+            other_profile = pk
+            current_profile.following.add(other_profile)
+
+            return Response({"Requested" : "Follow request has been sent!!"},status=status.HTTP_200_OK)
+
+class UnFollowView(APIView):
+        permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+                
+        def post(request, self, pk,format=None):    
+            current_profile = self.user
+            other_profile = pk
+            current_profile.following.remove(other_profile)
+
+            return Response({"Requested" : "Unfollowed!"},status=status.HTTP_200_OK)
+
+class LikeView(APIView):
+        permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+                
+        def post(request, self, pk,format=None):    
+            current_profile = self.user
+            current_card = Card.objects.get(id=pk)
+            current_card.like.add(current_profile)
+
+            return Response({"Requested" : "You have liked this card!"},status=status.HTTP_200_OK)
+
+
+class UnLikeView(APIView):
+        permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+                
+        def post(request, self, pk,format=None):    
+            current_profile = self.user
+            current_card = Card.objects.get(id=pk)
+            current_card.like.remove(current_profile)
+
+            return Response({"Requested" : "You have Unliked this card!"},status=status.HTTP_200_OK)
+
+
+
 
 # class FollowView(viewsets.ViewSet):
 #     queryset = Profile.objects
 
 #     def follow(self, request, pk):
 #         # your follow code
-#         own_profile = request.user.profile_set.first()  
+#         own_profile = request.user.profilfe_set.first()  
 #         following_profile = Profile.objects.get(id=pk)
 #         own_profile.following.add(following_profile)
 #         return Response({'message': 'now you are following'}, status=status.HTTP_200_OK)

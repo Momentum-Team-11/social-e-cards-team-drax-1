@@ -1,12 +1,16 @@
+from socketserver import ThreadingUDPServer
 from .models import Card, User
 from rest_framework import serializers
 
 class CardSerializer(serializers.ModelSerializer):
     username = serializers.SlugRelatedField(slug_field='username', read_only='True', source='user')
+    user_pk= serializers.PrimaryKeyRelatedField(read_only='True', source="user")
+    created_at=serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     class Meta:
         model = Card
         fields = (
             'pk',
+            'user_pk',
             'username',
             'occasion',
             'frontDescription',
