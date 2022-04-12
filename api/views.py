@@ -82,7 +82,7 @@ class FollowView(APIView):
 class UnFollowView(APIView):
         permission_classes = [permissions.IsAuthenticatedOrReadOnly]
                 
-        def post(request, self, pk,format=None):    
+        def delete(request, self, pk,format=None):    
             current_profile = self.user
             other_profile = pk
             current_profile.following.remove(other_profile)
@@ -103,7 +103,7 @@ class LikeView(APIView):
 class UnLikeView(APIView):
         permission_classes = [permissions.IsAuthenticatedOrReadOnly]
                 
-        def post(request, self, pk,format=None):    
+        def delete(request, self, pk,format=None):    
             current_profile = self.user
             current_card = Card.objects.get(id=pk)
             current_card.like.remove(current_profile)
