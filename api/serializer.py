@@ -5,7 +5,7 @@ from rest_framework import serializers
 class CardSerializer(serializers.ModelSerializer):
     username = serializers.SlugRelatedField(slug_field='username', read_only='True', source='user')
     user_pk= serializers.PrimaryKeyRelatedField(read_only='True', source="user")
-    created_at=serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    created_at=serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False)
     class Meta:
         model = Card
         fields = (
@@ -27,7 +27,7 @@ class CardSerializer(serializers.ModelSerializer):
 class DraftCardSerializer(serializers.ModelSerializer):
     username = serializers.SlugRelatedField(slug_field='username', read_only='True', source='user')
     user_pk= serializers.PrimaryKeyRelatedField(read_only='True', source="user")
-    created_at=serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    created_at=serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False)
     class Meta:
         model = Draft
         fields = (

@@ -96,8 +96,8 @@ class Card(models.Model):
         return self.occasion
 
 class Draft(models.Model):
-    occasion= models.CharField(max_length=50, blank=True)
-    frontDescription= models.CharField(max_length=250, blank=True)
+    occasion= models.CharField(max_length=50)
+    frontDescription= models.CharField(max_length=250)
     backDescription= models.CharField(max_length=250, blank=True)
     user= models.ForeignKey(User, related_name="draft_card", on_delete=models.CASCADE, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=datetime.now)
