@@ -108,6 +108,14 @@ class UnLikeView(APIView):
 
             return Response({"Requested" : "You have Unliked this card!"},status=status.HTTP_200_OK)
 
+class CardSearchView(ListAPIView):
+    serializer_class = CardSerializer
+    
+    def get_queryset(self):
+        queryset=Card.objects.filter(card_id=self.kwargs["card_pk"])
+        search_term=self.request.query_params.get("occasion")
+        if search_term is not None:
+            return Card.objects.filter("occasion_icontains")
 
 
 

@@ -36,5 +36,5 @@ urlpatterns = [
     path('api/unfollow/<int:pk>/', api_views.UnFollowView.as_view()),
     path('api/like/<int:pk>/', api_views.LikeView.as_view()),
     path('api/unlike/<int:pk>/', api_views.UnLikeView.as_view()),
-
+    path('api/search/', api_views.CardSearchView.as_view()),
 ]
