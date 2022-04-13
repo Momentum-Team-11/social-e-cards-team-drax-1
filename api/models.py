@@ -172,6 +172,7 @@ class ProfileModel(models.Model):
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
     about_me = models.CharField(max_length=1000, blank=True)
+    banner = models.URLField(max_length=500, blank=True)
     user= models.ForeignKey(User, related_name="profile", on_delete=models.CASCADE)
 
     class Meta:

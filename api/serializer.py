@@ -86,6 +86,7 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model= Comment
         fields = (
+            'pk',
             'card',
             'user',
             'username',
