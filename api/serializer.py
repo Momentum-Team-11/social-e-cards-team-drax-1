@@ -1,5 +1,4 @@
-from socketserver import ThreadingUDPServer
-from .models import Card, User, Draft
+from .models import Card, User, Draft, ProfileModel, Comment
 from rest_framework import serializers
 
 class CardSerializer(serializers.ModelSerializer):
@@ -66,3 +65,29 @@ class UserSerializer(serializers.ModelSerializer):
             for card in cards:
                 User.objects.create(user=user_instance, **card)
             return user_instance
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProfileModel
+        fields = (
+            'profile_pic',
+            'first_name',
+            'last_name',
+            'about_me',
+            'user'
+        )
+
+class CommentSerializer(serializers.ModelSerializer):
+    created_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", required=False)
+    username = serializers.SlugRelatedField(slug_field='username', read_only='True', source='user')
+
+    class Meta:
+        model= Comment
+        fields = (
+            'card',
+            'user',
+            'username',
+            'created_date',
+            'text',
+        )

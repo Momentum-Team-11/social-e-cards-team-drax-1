@@ -1,11 +1,10 @@
-from pyexpat import model
-from xml.dom import UserDataHandler
+
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, permissions, viewsets, filters, status
-from .models import Card, User, Draft
-from .serializer import CardSerializer, UserSerializer, DraftCardSerializer 
+from .models import Card, ProfileModel, User, Draft, Comment
+from .serializer import CardSerializer, CommentSerializer, ProfileSerializer, UserSerializer, DraftCardSerializer 
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, ListCreateAPIView 
 from .permissions import IsOwnerOrReadOnly
 from django.db.models import Q
@@ -142,3 +141,27 @@ class DraftCardDetailsView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         filters = Q(user_id=self.request.user)
         return Draft.objects.filter(filters)
+
+
+
+class ProfileList(generics.ListCreateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
+    queryset = ProfileModel.objects.all()
+
+
+class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
+    queryset = ProfileModel.objects.all()
+
+
+class CommentList(generics.ListCreateAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
+    queryset = Comment.objects.all()
+
+class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = (IsOwnerOrReadOnly,)
+    queryset = Comment.objects.all()

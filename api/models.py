@@ -157,3 +157,27 @@ class Draft(models.Model):
 
 
 
+class ProfileModel(models.Model):
+    profile_pic = models.URLField(max_length=500, blank=True)
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
+    about_me = models.CharField(max_length=1000, blank=True)
+    user= models.ForeignKey(User, related_name="profile", on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user"], name="unique_profile")
+        ]
+
+    def __str__(self):
+        return self.first_name
+
+class Comment(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, null=True, related_name="cards")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="notes")
+    created_date = models.DateTimeField(auto_now_add=datetime.now)
+    text = models.CharField(max_length=2000)
+
+    def __str__(self):
+        return f"{self.card} {self.created_date}"

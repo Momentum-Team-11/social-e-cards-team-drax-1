@@ -39,4 +39,8 @@ urlpatterns = [
     path('api/search/', api_views.CardSearchView.as_view()),
     path('api/draft/', api_views.UserCreatedDraftCardListView.as_view()),
     path('api/draft/<int:pk>/', api_views.DraftCardDetailsView.as_view()),
+    path('api/profile/list/', api_views.ProfileList.as_view()),
+    path('api/profile/<int:pk>/', api_views.ProfileDetail.as_view()),
+    path('api/comment/list/', api_views.CommentList.as_view()),
+    path('api/comment/<int:pk>/', api_views.CommentDetail.as_view()),
 ]
