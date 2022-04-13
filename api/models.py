@@ -46,6 +46,16 @@ class Card(models.Model):
     like = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='user_like')
     has_back = models.CharField(max_length=10, default="false")
     
+    #Font Color
+    BLACK = 'Black'
+    RED = 'Red'
+    WHITE = 'White'
+    GRAY = 'Gray'
+    YELLOW = 'Yellow'
+    SILVER = 'Silver'
+    FONT_COLOR_CHOICES = [(BLACK, 'Black'), (RED, 'Red'), (WHITE, 'White'), (GRAY, 'Gray'), (YELLOW, 'Yellow'), (SILVER, 'Silver')]
+    font_color = models.CharField(max_length=200, blank=True, choices=FONT_COLOR_CHOICES)
+
     #Card Alignment
     THE_START = 'Start'
     THE_END = 'End'
