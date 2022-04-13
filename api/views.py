@@ -119,7 +119,7 @@ class CardSearchView(generics.ListAPIView):
         queryset = Card.objects.all()
         occasion = self.request.query_params.get('occasion')
         if occasion is not None:
-            queryset = queryset.filter(occasion=occasion)
+            queryset = queryset.filter(occasion__icontains=occasion)
         return queryset
 
 
