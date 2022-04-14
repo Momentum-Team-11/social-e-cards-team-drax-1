@@ -76,6 +76,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'about_me',
+            'banner',
             'user'
         )
 

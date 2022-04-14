@@ -43,4 +43,6 @@ urlpatterns = [
     path('api/profile/<int:pk>/', api_views.ProfileDetail.as_view()),
     path('api/comment/list/', api_views.CommentList.as_view()),
     path('api/comment/<int:pk>/', api_views.CommentDetail.as_view()),
+    path('api/specific-comment/<int:pk>/', api_views.SpecificCommentListView.as_view()),
+
 ]

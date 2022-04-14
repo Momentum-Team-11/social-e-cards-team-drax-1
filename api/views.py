@@ -1,4 +1,5 @@
 
+from urllib import response
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -165,3 +166,15 @@ class CommentDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
     permission_classes = (IsOwnerOrReadOnly,)
     queryset = Comment.objects.all()
+
+class SpecificCommentListView(generics.ListCreateAPIView):
+        permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+        serializer_class = CommentSerializer
+
+        def get_queryset(self):
+            print(self.request.path)
+            pk = self.kwargs.get('pk')
+            filters = Q(card_id=pk)
+            return Comment.objects.filter(filters)
+
+
