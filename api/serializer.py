@@ -20,6 +20,9 @@ class CardSerializer(serializers.ModelSerializer):
             'like',
             'has_back',
             'card_color',
+            'font_color',
+            'card_alignment',
+            'card_font',
             'border'
         )
 
@@ -42,6 +45,9 @@ class DraftCardSerializer(serializers.ModelSerializer):
             'like',
             'has_back',
             'card_color',
+            'font_color',
+            'card_alignment',
+            'card_font',
             'border'
         )
 
