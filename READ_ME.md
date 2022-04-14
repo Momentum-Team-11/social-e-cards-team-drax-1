@@ -42,7 +42,6 @@ Our enviroment consists of :
 - Fully customizable Profile page:
     - Fully customizable background banner
     - Expressive inputs to allow user to share about themselves
-- User can comment on cards
 - Drafting a card while allowing the user to publish any Draft
 - Having a sorted page that allows the user to browse public cards
 - Having a sorted page with User created cards.
