@@ -137,6 +137,16 @@ class Draft(models.Model):
         (SPACE_AROUND, 'Space-Around'), (SPACE_EVENLY, 'Space-Evenly'), (STRETCH, 'Stretch'), (SAFE, 'Safe'), (UNSAFE, 'Unsafe')]
     card_alignment = models.CharField(max_length=200, blank=True, choices=CARD_ALIGNMENT_CHOICES)
 
+#Font Color
+    BLACK = 'Black'
+    RED = 'Red'
+    WHITE = 'White'
+    GRAY = 'Gray'
+    YELLOW = 'Yellow'
+    SILVER = 'Silver'
+    FONT_COLOR_CHOICES = [(BLACK, 'Black'), (RED, 'Red'), (WHITE, 'White'), (GRAY, 'Gray'), (YELLOW, 'Yellow'), (SILVER, 'Silver')]
+    font_color = models.CharField(max_length=200, blank=True, choices=FONT_COLOR_CHOICES)
+
     #Card FONTS
     ROBOTO = 'Roboto'
     OPEN_SANS = 'Open Sans'
